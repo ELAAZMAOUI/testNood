@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>To Do List</title>
+        <meta http-equiv="Content-Type" content="audio/.mp3"/>
+        <style type="text/css">
+
+strong
+{
+    color: white ;
+    background-color: black ;
+}
+.btn
+{
+margin-left: 80%;
+height: 40px;
+
+
+}
+
+        </style>
+    </head>
+ 
+    <body>
+        <h1>To Do list en temps reel !!</h1>
+        <ul id="chatPart">
+ 
+
+
+
+
+
+ </ul>
+<form action="/form" method="post">
+Que dois je faire ?  <input type="text" name="todo"  > 
+ <input type="submit" value="Valider">
+</form>
+ 
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+        <% if(<%=isis%>)
+        {
+            var socket = io.connect('http://localhost:8080');
+        var pseudo = prompt('Quel est votre nom  ?');
+         socket.emit('petit_nouveau', pseudo);
+         }
+         %>
+         function fct2()
+         {
+
+  pseudo = prompt('Quel est votre nom  ?');
+         socket.emit('petit_nouveau', pseudo);
+
+
+         }
+            socket.on('pseudoInvalide',function(message) {
+         pseudo = prompt(message);
+         socket.emit('petit_nouveau', pseudo);
+    });
+            socket.on('pseudovalide',function(pseudo) {
+          var    pseudo= pseudo;
+   
+   
+       document.getElementById("addForm").style.display = "block";
+       var i=0;
+       alert("initial  i = "+i);
+       
+         
+  });
+socket.on('nv_user',function(pseudo){
+
+   document.getElementById("chatPart").innerHTML+= "<br/> "+pseudo+" a rejoint le Chat";
+});
+    
+     socket.on('nv_msg',function(info){
+   socket.emit('ntif_sound','bla bla ');
+   document.getElementById("chatPart").innerHTML+="<p> <strong>"+info.pseudo+"</strong> : "+info.message +" .</p>"
+});
+
+           function  fct()
+           {
+ 
+  var todo =document.getElementById('todo').value;
+  alert("todo  "+todo);
+ 
+ if (todo.trim()!='') {
+  alert("todo 2 "+todo);
+ document.getElementById("chatPart").innerHTML+= "gaga :"+todo;
+ 
+ alert("i= "+i);
+ socket.emit('message', message);
+ }
+
+}    
+
+      socket.on('user_dic',function(pseudo){
+          socket.emit('ntif_sound','bla bla ');
+   document.getElementById("chatPart").innerHTML+= pseudo+" a quiter le Chat";
+});
+             
+        </script>
+    </body>
+</html>

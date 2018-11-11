@@ -1,0 +1,16 @@
+{
+    "name": "ma-todolist",
+    "version": "0.1.0",
+    "dependencies": {
+        "audio-play": "^2.2.1",
+        "body-parser": "^1.10.2",
+        "cookie-session": "^1.1.0",
+        "ejs": "^2.1.4",
+        "express": "^4.16.4",
+        "fs": "0.0.1-security",
+        "play-sound": "^1.1.2",
+        "socket.io": "^2.1.1"
+    },
+    "author": "ikram",
+    "description": "Un gestionnaire de todolist ultra basique"
+}

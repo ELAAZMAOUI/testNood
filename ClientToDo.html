@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>To Do List</title>
+        <meta http-equiv="Content-Type" content="audio/.mp3"/>
+        <style type="text/css">
+
+strong
+{
+    color: white ;
+    background-color: black ;
+}
+.btn
+{
+margin-left: 80%;
+height: 40px;
+
+
+}
+
+        </style>
+    </head>
+ 
+    <body>
+        <h1>To Do list en temps reel !!</h1>
+        <ul id="chatPart">
+ 
+
+
+
+
+
+ </ul>
+<div id="addForm" hidden>      
+Que dois je faire ?  <input type="text" name="todo"  id="todo"> 
+<input type="submit" value="Envoyer" onclick="fct()" >
+</div>
+ 
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080');
+        var pseudo = prompt('Quel est votre nom  ?');
+         socket.emit('petit_nouveau', pseudo);
+         function fct2()
+         {
+
+  pseudo = prompt('Quel est votre nom  ?');
+         socket.emit('petit_nouveau', pseudo);
+ }
+            socket.on('pseudoInvalide',function(message) {
+         pseudo = prompt(message);
+         socket.emit('petit_nouveau', pseudo);
+    });
+ socket.on('pseudovalide',function(pseudo) {
+          var    pseudo= pseudo;
+       document.getElementById("addForm").style.display = "block";
+    sessionStorage.setItem('i',0);   
+    if (pseudo!='rien') {
+
+for (var i =0; i<pseudo.length ; i++) {
+ existeList();
+};
+    }  
+  });
+
+           function  fct()
+           {
+ 
+  var todo =document.getElementById('todo').value;
+ 
+ 
+ if (todo.trim()!='') {
+ 
+   var i=parseInt(sessionStorage.getItem('i'));
+  document.getElementById("chatPart").innerHTML+= "<li id=\""+i+"\"  ><button type=\"button\" id=\""+i+"\" onclick=\"fct(this.id)\">X</button> "+todo+" </li><br/>";
+ 
+
+ sessionStorage.setItem('i',i+1);
+ 
+ socket.emit('message',todo);
+ }
+
+}    
+
+      socket.on('nv_tache',function(todo){
+  var i=parseInt(sessionStorage.getItem('i'));
+  document.getElementById("chatPart").innerHTML+= "<li id=\""+i+"\"  ><button type=\"button\" id=\""+i+"\" onclick=\"fct(this.id)\">X</button> "+todo+" </li><br/>";
+ 
+
+ sessionStorage.setItem('i',i+1);
+ 
+});
+
+      function existeList()
+      {
+        var i=parseInt(sessionStorage.getItem('i'));
+  document.getElementById("chatPart").innerHTML+= "<li id=\""+i+"\"  ><button type=\"button\" id=\""+i+"\" onclick=\"fct(this.id)\">X</button> "+todo+" </li><br/>";
+ 
+
+ sessionStorage.setItem('i',i+1);
+      }
+             
+        </script>
+    </body>
+</html>

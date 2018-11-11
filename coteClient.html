@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+        <meta http-equiv="Content-Type" content="audio/.mp3"/>
+        <style type="text/css">
+
+strong
+{
+    color: white ;
+    background-color: black ;
+}
+.btn
+{
+margin-left: 80%;
+height: 40px;
+
+
+}
+
+        </style>
+    </head>
+ 
+    <body>
+        <h1>Le Super chat temps reel !!</h1>
+<div id="addForm" hidden>
+   <input type="text" name="msg" placeholder="Votre message"  id='msg'> 
+ <input type="submit" value="Envoyer" onclick="fct()" >
+</div>
+<br/><button class="btn" onclick="fct2()"> changer pseudo </button>
+<section id="chatPart">
+
+
+
+
+
+</section>
+ 
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080');
+        var pseudo = prompt('Quel est votre pseudo ?');
+         socket.emit('petit_nouveau', pseudo);
+         function fct2()
+         {
+
+  pseudo = prompt('Quel est votre pseudo ?');
+         socket.emit('petit_nouveau', pseudo);
+
+
+         }
+            socket.on('pseudoInvalide',function(message) {
+         pseudo = prompt(message);
+         socket.emit('petit_nouveau', pseudo);
+    });
+            socket.on('pseudovalide',function(pseudo) {
+          var    pseudo= pseudo;
+       document.title = pseudo + '  Super chat temps reel' ;
+       document.getElementById("addForm").style.display = "block";
+       socket.emit('ntif_sound','bla bla ');
+          document.getElementById("chatPart").innerHTML+= pseudo+" a rejoint le Chat";
+  });
+socket.on('nv_user',function(pseudo){
+
+   document.getElementById("chatPart").innerHTML+= "<br/> "+pseudo+" a rejoint le Chat";
+});
+    
+     socket.on('nv_msg',function(info){
+   socket.emit('ntif_sound','bla bla ');
+   document.getElementById("chatPart").innerHTML+="<p> <strong>"+info.pseudo+"</strong> : "+info.message +" .</p>"
+});
+
+           function  fct()
+           {
+ 
+  var message =document.getElementById('msg').value;
+ 
+ if (message.trim()!='') {
+ document.getElementById("chatPart").innerHTML+= "<p> <strong>"+pseudo+"</strong> : "+message +" .</p>";
+ socket.emit('message', message);
+ }
+
+}    
+
+      socket.on('user_dic',function(pseudo){
+          socket.emit('ntif_sound','bla bla ');
+   document.getElementById("chatPart").innerHTML+= pseudo+" a quiter le Chat";
+});
+             
+        </script>
+    </body>
+</html>

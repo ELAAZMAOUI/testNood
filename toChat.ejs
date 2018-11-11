@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+    </head>
+ 
+    <body>
+        <h1>Le super chat temps reel !</h1>
+ 
+
+ <form action="/tochatSpace" method="post">
+   <input type="text" name="msg" placeholder="Votre message" > 
+ <input type="submit" value="Envoyer">
+</form>
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080');
+            socket.on('message', function(message) {
+                alert('Le serveur a un message pour vous : ' + message);
+            })
+
+         function fct()
+         {
+
+                socket.emit('message', 'Salut serveur, ça va ?');
+            }
+
+
+            var pseudo = prompt('Quel est votre pseudo ?');
+          socket.emit('petit_nouveau', pseudo);
+        </script>
+    </body>
+</html>
